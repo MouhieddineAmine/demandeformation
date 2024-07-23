@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulaire de demande de formation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Demande de Formation</h2>
+        <form id="trainingRequestForm">
+            <label for="employeeName">Nom de l'employé(e)</label>
+            <select id="employeeName" name="employeeName">
+                <!-- Options should be dynamically generated -->
+                <option value="John Doe">John Doe</option>
+                <option value="Jane Smith">Jane Smith</option>
+            </select>
+
+            <label for="managerName">Nom du gestionnaire</label>
+            <input type="text" id="managerName" name="managerName" value="Chantal Bergevin" readonly>
+
+            <label for="providerName">Nom du fournisseur</label>
+            <input type="text" id="providerName" name="providerName">
+
+            <label for="courseCode">Code du cours</label>
+            <input type="text" id="courseCode" name="courseCode">
+
+            <label for="courseTitle">Titre du cours</label>
+            <input type="text" id="courseTitle" name="courseTitle">
+
+            <label for="registrationDeadline">Date limite d'inscription</label>
+            <input type="date" id="registrationDeadline" name="registrationDeadline">
+
+            <label for="category">Catégorie</label>
+            <select id="category" name="category">
+                <option value="Project Management">Gestion de projet</option>
+                <option value="IT">Informatique</option>
+                <option value="HR">Gestion des ressources humaines</option>
+            </select>
+
+            <label for="modality">Modalité pédagogique</label>
+            <select id="modality" name="modality">
+                <option value="In Person">En personne</option>
+                <option value="Virtual Classroom">Salle de classe virtuelle</option>
+                <option value="Self-paced">Apprentissage virtuel à son rythme</option>
+            </select>
+
+            <label for="language">Langue du cours</label>
+            <select id="language" name="language">
+                <option value="English">Anglais</option>
+                <option value="French">Français</option>
+            </select>
+
+            <label for="courseDuration">Durée du cours (heures)</label>
+            <input type="number" id="courseDuration" name="courseDuration">
+
+            <label for="courseFee">Frais du cours (CAD)</label>
+            <input type="number" id="courseFee" name="courseFee">
+
+            <label for="courseStartDate">Date de début du cours</label>
+            <input type="date" id="courseStartDate" name="courseStartDate">
+
+            <button type="button" onclick="submitForm()">Soumettre</button>
+        </form>
+    </div>
+
+    <script>
+        function submitForm() {
+            const form = document.getElementById('trainingRequestForm');
+            const formData = new FormData(form);
+            
+            fetch('submit_request.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    alert('Demande soumise avec succès!');
+                } else {
+                    alert('Erreur: ' + data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+    
+</body>
+</html>
